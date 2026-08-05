@@ -37,7 +37,6 @@ jobs:
         working-directory: website
         env:
           NITRO_PRESET: github-pages
-          VITE_API_BASE_URL: https://gleam-field-production.up.railway.app/api/v1
         run: bun run build
 
       - name: Add SPA fallback
