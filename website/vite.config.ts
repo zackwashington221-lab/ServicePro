@@ -6,22 +6,13 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-const isGitHubPages = process.env.NITRO_PRESET === "github-pages";
-
 export default defineConfig({
-  tanstackStart: isGitHubPages ? {
-    spa: {
-      enabled: true,
-      maskPath: "/gleam-field/",
-      prerender: { outputPath: "/index.html" },
-    },
-  } : {
-    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
+  // Build and run the TanStack Start server, including SSR routes and its
+  // runtime integration with the ServicePro API.
+  tanstackStart: {
     server: { entry: "server" },
   },
   vite: {
-    base: isGitHubPages ? "/gleam-field/" : "/",
+    base: "/",
   },
-  nitro: isGitHubPages ? false : undefined,
 });
