@@ -11,7 +11,6 @@ const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().int().positive().default(4000),
   API_PREFIX: z.string().startsWith("/").default("/api/v1"),
-  CORS_ORIGINS: z.string().default("http://localhost:8080"),
 
   MONGODB_URI: z.string().min(1, "MONGODB_URI is required"),
 
@@ -44,7 +43,6 @@ if (!parsed.success) {
 export const env = {
   ...parsed.data,
   isProd: parsed.data.NODE_ENV === "production",
-  corsOrigins: parsed.data.CORS_ORIGINS.split(",").map((o) => o.trim()).filter(Boolean),
 };
 
 export type Env = typeof env;

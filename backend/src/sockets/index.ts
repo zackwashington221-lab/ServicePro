@@ -1,6 +1,5 @@
 import type { Server as HttpServer } from "node:http";
 import { Server as IOServer, type Socket } from "socket.io";
-import { env } from "../config/env.js";
 import { logger } from "../config/logger.js";
 import { verifyAccessToken } from "../utils/token.js";
 
@@ -12,7 +11,7 @@ let io: IOServer | null = null;
 
 export function initSockets(httpServer: HttpServer): IOServer {
   io = new IOServer(httpServer, {
-    cors: { origin: env.corsOrigins, credentials: true },
+    cors: { origin: true, credentials: true },
     path: "/socket.io",
   });
 

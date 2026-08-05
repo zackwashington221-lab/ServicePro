@@ -31,7 +31,7 @@ The production Compose file runs only the API. Use MongoDB Atlas or another mana
 ```bash
 # On the server, from the backend directory
 cp .env.production.example .env
-nano .env                         # set MongoDB URI, two new JWT secrets, and CORS_ORIGINS
+nano .env                         # set MongoDB URI and two new JWT secrets
 docker compose -f docker-compose.production.yml up -d --build
 curl http://127.0.0.1:4000/api/v1/health
 ```
