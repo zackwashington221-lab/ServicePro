@@ -6,15 +6,22 @@ async function createAdmin() {
   await connectDatabase();
 
   const adminEmail = (process.env.ADMIN_EMAIL ?? "admin@servicepro.com").toLowerCase();
-  const adminPassword = process.env.ADMIN_PASSWORD ?? "AdminPassword123!";
+  const adminPassword = process.env.ADMIN_PASSWORD;
   const adminName = process.env.ADMIN_NAME ?? "Business Administrator";
-  if (adminPassword.length < 10) throw new Error("ADMIN_PASSWORD must be at least 10 characters long");
+  if (!adminPassword || adminPassword.length < 10) {
+    throw new Error("Set ADMIN_PASSWORD to a password with at least 10 characters before running this seed");
+  }
 
   const existing = await User.findOne({ email: adminEmail });
   if (existing) {
-    logger.info(`An admin account with email "${adminEmail}" already exists!`);
+    existing.name = adminName;
+    existing.role = "admin";
+    existing.isActive = true;
+    existing.password = adminPassword;
+    await existing.save();
+    logger.info(`Admin account updated: ${adminEmail}`);
     await disconnectDatabase();
-    process.exit(0);
+    return;
   }
 
   await User.create({
@@ -25,15 +32,9 @@ async function createAdmin() {
     isActive: true,
   });
 
-  logger.info("====================================================");
-  logger.info("SUCCESS: Default Admin User Created Successfully!");
-  logger.info("----------------------------------------------------");
-  logger.info(`Email:    ${adminEmail}`);
-  logger.info(`Password: ${adminPassword}`);
-  logger.info("====================================================");
+  logger.info(`Admin account created: ${adminEmail}`);
 
   await disconnectDatabase();
-  process.exit(0);
 }
 
 void createAdmin().catch((err) => {

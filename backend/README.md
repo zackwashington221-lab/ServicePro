@@ -24,6 +24,16 @@ docker compose up --build
 
 API docs: `http://localhost:4000/docs` · OpenAPI JSON: `/docs.json`
 
+## Seed an administrator
+
+Set `ADMIN_NAME`, `ADMIN_EMAIL`, and a strong `ADMIN_PASSWORD` in `.env`, then run:
+
+```bash
+npm run seed:admin
+```
+
+The command creates the administrator when it does not exist, or resets the matching account as an active administrator with the supplied password.
+
 ## Production deployment (Ubuntu VPS + Docker)
 
 The production Compose file runs only the API. Use MongoDB Atlas or another managed MongoDB service; do not expose a database port from this server. Uploaded files and logs are kept in Docker volumes, so they survive container replacements.
