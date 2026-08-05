@@ -13,23 +13,20 @@ import { mountSwagger } from "./config/swagger.js";
 import { globalLimiter } from "./middleware/rateLimit.js";
 import { errorHandler, notFoundHandler } from "./middleware/error.js";
 import { apiRouter } from "./routes.js";
-import { ApiError } from "./utils/ApiError.js";
-
-const GITHUB_PAGES_ORIGIN = "https://zackwashington221-lab.github.io";
 
 export function createApp(): Express {
   const app = express();
-  const allowedOrigins = new Set([...env.corsOrigins, GITHUB_PAGES_ORIGIN]);
 
   app.set("trust proxy", 1);
   app.disable("x-powered-by");
 
-  // Security headers, strict CORS allowlist, payload limits.
+  // Security headers, open CORS policy, payload limits.
   app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
   app.use(
     cors({
-      origin: (origin, cb) =>
-        !origin || allowedOrigins.has(origin) ? cb(null, true) : cb(ApiError.forbidden("Origin not allowed by CORS")),
+      // Reflect every requesting origin. This is the credentials-compatible
+      // equivalent of allowing `*` for an API that uses cookies.
+      origin: true,
       credentials: true,
     }),
   );
