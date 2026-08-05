@@ -6,13 +6,32 @@
     "orientation": "portrait",
     "scheme": "servicepro",
     "userInterfaceStyle": "automatic",
+
+    "icon": "./assets/icon.png",
+
     "splash": {
+      "image": "./assets/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#2563EB"
     },
+
     "assetBundlePatterns": ["**/*"],
-    "ios": { "supportsTablet": true, "bundleIdentifier": "com.servicepro.technician" },
-    "android": { "package": "com.servicepro.technician" },
-    "web": { "bundler": "metro" }
+
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.servicepro.technician"
+    },
+
+    "android": {
+      "package": "com.servicepro.technician",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#2563EB"
+      }
+    },
+
+    "web": {
+      "bundler": "metro"
+    }
   }
 }
